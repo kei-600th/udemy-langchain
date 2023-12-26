@@ -44,4 +44,9 @@ def handle_mention(event, say):
 
 # アプリを起動します
 if __name__ == "__main__":
-    SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
+    app_env = os.environ.get("APP_ENV", "production")
+
+    if app_env == "production":
+        app.start(port=int(os.environ.get("PORT")))
+    else:
+        SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
